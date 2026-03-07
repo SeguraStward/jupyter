@@ -1,0 +1,12 @@
+services:
+  ia-workspace:
+    build: .
+    container_name: entorno_ia
+    ports:
+      - "8888:8888"
+    volumes:
+      - ./notebooks:/app
+    environment:
+      - JUPYTER_TOKEN=curso_ia  # Esto será tu contraseña para entrar
+    stdin_open: true
+    tty: true
