@@ -15,10 +15,11 @@ ENV LANG=es_ES.UTF-8
 ENV LANGUAGE=es_ES:es
 ENV LC_ALL=es_ES.UTF-8
 
-# Instalamos tus librerías + paquete de idioma español para JupyterLab
+# Instalamos tus librerías originales + paquete de idioma español + STREAMLIT
 RUN pip install --no-cache-dir \
     jupyterlab numpy pandas matplotlib seaborn scikit-learn networkx nltk \
-    jupyterlab-language-pack-es-ES
+    jupyterlab-language-pack-es-ES \
+    streamlit
 
 # Descarga automática de datos comunes de NLTK
 RUN python -m nltk.downloader punkt stopwords wordnet
@@ -27,6 +28,9 @@ RUN python -m nltk.downloader punkt stopwords wordnet
 RUN mkdir -p /root/.jupyter/lab/user-settings/@jupyterlab/translation-extension && \
     echo '{"locale": "es_ES"}' > /root/.jupyter/lab/user-settings/@jupyterlab/translation-extension/plugin.jupyterlab-settings
 
+# Exponemos ambos puertos: 8888 (Jupyter) y 8501 (Streamlit)
 EXPOSE 8888
+EXPOSE 8501
 
+# Mantenemos el CMD original para que arranque JupyterLab
 CMD ["jupyter", "lab", "--ip=0.0.0.0", "--port=8888", "--no-browser", "--allow-root", "--NotebookApp.token='curso_ia'"]
